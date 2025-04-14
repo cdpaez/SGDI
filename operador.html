@@ -8,9 +8,9 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="/assets/css/paginas/operador.css">
   <title>Panel del Operador</title>
- 
+
   <style>
-    
+
   </style>
 </head>
 
@@ -277,6 +277,10 @@
       const activa = document.getElementById(id);
       if (activa) activa.classList.add('activa');
     }
+    document.getElementById("cerrar-sesion").addEventListener("click", function () {
+      // Aquí podrías borrar el token de sesión o lo que uses para login si aplica
+      window.location.href = "index.html";
+    });
   </script>
   <script src="/assets/js/operador/buscar.js"></script>
   <script src="/assets/js/operador/productos.js"></script>
