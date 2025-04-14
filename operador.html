@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/assets/img/logo/inventario.png">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="/assets/css/paginas/operador.css">
+  <title>Panel del Operador</title>
+ 
+  <style>
+    
+  </style>
+</head>
+
+<body>
+  <div class="envoltorio__principal">
+    <header>
+      🛒 Panel del Operador
+      <a href="/dashboard.html">dashboard</a>
+    </header>
+
+    <main>
+      <nav class="panel-lateral">
+        <h2>Menú</h2>
+        <button onclick="mostrarSeccion('productos')">📦 Productos</button>
+        <button onclick="mostrarSeccion('ventas')">🛒 Registrar Venta</button>
+        <button onclick="mostrarSeccion('mis-estadisticas')">📈 Mis Estadísticas</button>
+        <button onclick="mostrarSeccion('perfil')">👤 Perfil</button>
+      </nav>
+
+      <section class="area-contenido">
+        <div id="productos" class="seccion activa">
+          <h2>📦 Productos en Stock</h2>
+          <!-- Filtros y botón agregar -->
+          <div class="barra-productos">
+            <input id="buscador-productos" type="text" placeholder="Buscar producto...">
+            <!-- <button id="abrir-modal">➕ Agregar producto</button> -->
+          </div>
+          <div class="tabla-productos">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Categoría</th>
+                  <th>Precio</th>
+                  <th>Stock</th>
+                  <th>Proveedor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Productos simulados -->
+                <!-- Puedes copiar y pegar filas para llegar a 50 -->
+                <!-- Aquí van 10 ejemplos, los duplicamos luego -->
+                <tr>
+                  <td>001</td>
+                  <td>Lápiz HB</td>
+                  <td>Oficina</td>
+                  <td>$0.50</td>
+                  <td>150</td>
+                  <td>OfiExpress</td>
+                </tr>
+                <tr>
+                  <td>002</td>
+                  <td>Cuaderno A5</td>
+                  <td>Oficina</td>
+                  <td>$2.00</td>
+                  <td>80</td>
+                  <td>OfiExpress</td>
+                </tr>
+                <tr>
+                  <td>003</td>
+                  <td>USB 16GB</td>
+                  <td>Tecnología</td>
+                  <td>$7.50</td>
+                  <td>60</td>
+                  <td>TechPro</td>
+                </tr>
+                <tr>
+                  <td>004</td>
+                  <td>Mouse inalámbrico</td>
+                  <td>Tecnología</td>
+                  <td>$12.00</td>
+                  <td>45</td>
+                  <td>TechPro</td>
+                </tr>
+                <tr>
+                  <td>005</td>
+                  <td>Silla ergonómica</td>
+                  <td>Mobiliario</td>
+                  <td>$85.00</td>
+                  <td>10</td>
+                  <td>FurniCo</td>
+                </tr>
+                <tr>
+                  <td>006</td>
+                  <td>Caja archivadora</td>
+                  <td>Oficina</td>
+                  <td>$3.25</td>
+                  <td>75</td>
+                  <td>PaperStock</td>
+                </tr>
+                <tr>
+                  <td>007</td>
+                  <td>Monitor 24"</td>
+                  <td>Tecnología</td>
+                  <td>$140.00</td>
+                  <td>15</td>
+                  <td>VisionTech</td>
+                </tr>
+                <tr>
+                  <td>008</td>
+                  <td>Teclado mecánico</td>
+                  <td>Tecnología</td>
+                  <td>$35.00</td>
+                  <td>30</td>
+                  <td>VisionTech</td>
+                </tr>
+                <tr>
+                  <td>009</td>
+                  <td>Papel bond (500 hojas)</td>
+                  <td>Oficina</td>
+                  <td>$5.50</td>
+                  <td>200</td>
+                  <td>PaperStock</td>
+                </tr>
+                <tr>
+                  <td>010</td>
+                  <td>Impresora multifuncional</td>
+                  <td>Tecnología</td>
+                  <td>$210.00</td>
+                  <td>5</td>
+                  <td>PrintCo</td>
+                </tr>
+                <!-- ... duplica hasta 50 -->
+                <!-- Repite filas o varía un poco para simular 50 productos -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="ventas" class="seccion">
+          <h2>🛒 Registrar Venta</h2>
+
+          <form id="form-venta">
+            <!-- Búsqueda y selección de producto -->
+            <div class="venta-producto">
+              <label>Producto:</label>
+              <select name="producto">
+                <option value="">Seleccione un producto</option>
+                <option value="usb">USB 16GB</option>
+                <option value="cuaderno">Cuaderno A5</option>
+                <option value="lapiz">Lápiz HB</option>
+              </select>
+
+              <label>Cantidad:</label>
+              <input type="number" name="cantidad" min="1" value="1">
+
+              <button type="button" id="agregar-producto">➕ Agregar</button>
+            </div>
+
+            <!-- Lista de productos agregados -->
+            <div class="venta-lista">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio unitario</th>
+                    <th>Subtotal</th>
+                    <th>Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody id="tabla-venta-body">
+                  <!-- Aquí se agregarán los productos dinámicamente -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Resumen -->
+            <div class="venta-resumen">
+              <label>Método de pago:</label>
+              <select name="metodo_pago">
+                <option value="efectivo">Efectivo</option>
+                <option value="tarjeta">Tarjeta</option>
+                <option value="transferencia">Transferencia</option>
+              </select>
+
+              <p>Total: <strong id="total-venta">$0.00</strong></p>
+
+              <button type="submit">💾 Registrar venta</button>
+            </div>
+          </form>
+        </div>
+
+        <div id="mis-estadisticas" class="seccion">
+          <h2>📈 Mis Estadísticas</h2>
+
+          <div class="filtros-estadisticas">
+            <input type="date" id="mi-fecha-inicio">
+            <input type="date" id="mi-fecha-fin">
+            <button id="filtrar-estadisticas">🔍 Filtrar</button>
+          </div>
+
+          <div class="graficas">
+            <div class="grafica-card">
+              <h3>Ventas realizadas</h3>
+              <canvas id="grafica-mis-ventas"></canvas>
+            </div>
+
+            <div class="grafica-card">
+              <h3>Productos más vendidos</h3>
+              <canvas id="grafica-mis-productos"></canvas>
+            </div>
+
+            <div class="grafica-card">
+              <h3>Total generado</h3>
+              <p id="total-generado" style="font-size: 1.8rem; color: #2c3e50; margin-top: 1rem;">$0.00</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="perfil" class="seccion">
+          <h2>👤 Mi Perfil</h2>
+
+          <form id="form-perfil">
+            <fieldset>
+              <legend>Datos personales</legend>
+              <label>Nombre:</label>
+              <input type="text" name="nombre" value="Juan Pérez" disabled>
+
+              <label>Correo electrónico:</label>
+              <input type="email" name="correo" value="juan@empresa.com" disabled>
+
+              <label>Rol:</label>
+              <input type="text" value="Operador" disabled>
+            </fieldset>
+
+            <fieldset>
+              <legend>Cambiar contraseña</legend>
+              <label>Nueva contraseña:</label>
+              <input type="password" name="nueva_contrasena">
+
+              <label>Confirmar contraseña:</label>
+              <input type="password" name="confirmar_contrasena">
+            </fieldset>
+
+            <fieldset>
+              <legend>Preferencias</legend>
+              <label>
+                <input type="checkbox" name="modo_oscuro"> Activar modo oscuro
+              </label>
+              <label>
+                <input type="checkbox" name="letra_grande"> Letra grande
+              </label>
+            </fieldset>
+
+            <div class="acciones-perfil">
+              <button type="submit">💾 Guardar cambios</button>
+              <button type="button" id="cerrar-sesion">🚪 Cerrar sesión</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      © 2025 Sistema de Inventario | Operador
+    </footer>
+  </div>
+  <script>
+    function mostrarSeccion(id) {
+      const secciones = document.querySelectorAll('.seccion');
+      secciones.forEach(s => s.classList.remove('activa'));
+      const activa = document.getElementById(id);
+      if (activa) activa.classList.add('activa');
+    }
+  </script>
+  <script src="/assets/js/operador/buscar.js"></script>
+  <script src="/assets/js/operador/productos.js"></script>
+  <script src="/assets/js/operador/registrar.js"></script>
+  <script src="/assets/js/operador/estadisticas.js"></script>
+</body>
+
+</html>

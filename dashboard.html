@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/assets/img/logo/inventario.png">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="/assets/css/paginas/dashboard.css">
+  
+  <title>Inventario - Panel</title>
+
+ 
+</head>
+
+<body>
+  <div class="envoltorio__principal">
+
+    <header>
+      🧾 Sistema de Inventario
+      <a href="/operador.html">operador</a>
+    </header>
+
+    <main>
+      <nav class="panel-lateral">
+        <h2>Menú</h2>
+
+        <button onclick="mostrarSeccion('productos')">📦 Productos</button>
+        <button onclick="mostrarSeccion('ventas')">💰 Ventas</button>
+        <button onclick="mostrarSeccion('estadisticas')">📊 Estadísticas</button>
+        <button onclick="mostrarSeccion('usuarios')">👤 Usuarios</button>
+        <button onclick="mostrarSeccion('configuracion')">⚙️ Configuración</button>
+
+        <a href="/index.html"><button onclick="mostrarSeccion('configuracion')">X Cerrar sesion</button></a>
+
+      </nav>
+
+      <section class="area-contenido">
+        <div id="productos" class="seccion activa">
+          <h2>📦 Productos en Stock</h2>
+          <!-- Filtros y botón agregar -->
+          <div class="barra-productos">
+            <input type="text" id="buscador-productos" placeholder="Buscar producto...">
+            <button id="abrir-modal">➕ Agregar producto</button>
+          </div>
+          <div class="tabla-productos">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Categoría</th>
+                  <th>Precio</th>
+                  <th>Stock</th>
+                  <th>Proveedor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Productos simulados -->
+                <!-- Puedes copiar y pegar filas para llegar a 50 -->
+                <!-- Aquí van 10 ejemplos, los duplicamos luego -->
+                <tr>
+                  <td>001</td>
+                  <td>Lápiz HB</td>
+                  <td>Oficina</td>
+                  <td>$0.50</td>
+                  <td>150</td>
+                  <td>OfiExpress</td>
+                </tr>
+                <tr>
+                  <td>002</td>
+                  <td>Cuaderno A5</td>
+                  <td>Oficina</td>
+                  <td>$2.00</td>
+                  <td>80</td>
+                  <td>OfiExpress</td>
+                </tr>
+                <tr>
+                  <td>003</td>
+                  <td>USB 16GB</td>
+                  <td>Tecnología</td>
+                  <td>$7.50</td>
+                  <td>60</td>
+                  <td>TechPro</td>
+                </tr>
+                <tr>
+                  <td>004</td>
+                  <td>Mouse inalámbrico</td>
+                  <td>Tecnología</td>
+                  <td>$12.00</td>
+                  <td>45</td>
+                  <td>TechPro</td>
+                </tr>
+                <tr>
+                  <td>005</td>
+                  <td>Silla ergonómica</td>
+                  <td>Mobiliario</td>
+                  <td>$85.00</td>
+                  <td>10</td>
+                  <td>FurniCo</td>
+                </tr>
+                <tr>
+                  <td>006</td>
+                  <td>Caja archivadora</td>
+                  <td>Oficina</td>
+                  <td>$3.25</td>
+                  <td>75</td>
+                  <td>PaperStock</td>
+                </tr>
+                <tr>
+                  <td>007</td>
+                  <td>Monitor 24"</td>
+                  <td>Tecnología</td>
+                  <td>$140.00</td>
+                  <td>15</td>
+                  <td>VisionTech</td>
+                </tr>
+                <tr>
+                  <td>008</td>
+                  <td>Teclado mecánico</td>
+                  <td>Tecnología</td>
+                  <td>$35.00</td>
+                  <td>30</td>
+                  <td>VisionTech</td>
+                </tr>
+                <tr>
+                  <td>009</td>
+                  <td>Papel bond (500 hojas)</td>
+                  <td>Oficina</td>
+                  <td>$5.50</td>
+                  <td>200</td>
+                  <td>PaperStock</td>
+                </tr>
+                <tr>
+                  <td>010</td>
+                  <td>Impresora multifuncional</td>
+                  <td>Tecnología</td>
+                  <td>$210.00</td>
+                  <td>5</td>
+                  <td>PrintCo</td>
+                </tr>
+                <!-- ... duplica hasta 50 -->
+                <!-- Repite filas o varía un poco para simular 50 productos -->
+              </tbody>
+            </table>
+          </div>
+          <!-- Modal para agregar producto -->
+          <div class="modal" id="modal-agregar-producto">
+            <div class="modal-contenido">
+              <h3>Agregar nuevo producto</h3>
+              <form id="form-agregar-producto">
+                <input type="text" id="nombre" name="nombre" placeholder="Nombre del producto" required>
+                <input type="text" id="categoria" name="categoria" placeholder="Categoría" required>
+                <input type="number" id="precio" name="precio" placeholder="Precio" step="0.01" required>
+                <input type="number" id="stock" name="stock" placeholder="Cantidad en stock" required>
+                <input type="text" id="proveedor" name="proveedor" placeholder="Proveedor" required>
+                <div class="acciones-modal">
+                  <button type="submit">Guardar</button>
+                  <button type="button" class="cerrar-modal">Cancelar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+
+        <div id="ventas" class="seccion">
+          <h2>💰 Ventas del Día</h2>
+          <div class="filtros-ventas">
+            <input type="date" id="fecha-inicio" placeholder="Desde">
+            <input type="date" id="fecha-fin" placeholder="Hasta">
+            <input type="text" id="buscador-ventas" placeholder="Buscar venta, producto o vendedor">
+            <button id="exportar-ventas">📁 Exportar</button>
+          </div>
+          <div class="tabla-ventas">
+            <table>
+              <thead>
+                <tr>
+                  <th># Venta</th>
+                  <th>Fecha</th>
+                  <th>Productos</th>
+                  <th>Total</th>
+                  <th>Método</th>
+                  <th>Vendedor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Registros simulados -->
+                <tr>
+                  <td>V001</td>
+                  <td>2025-04-12 09:15</td>
+                  <td>USB 16GB x2, Cuaderno x1</td>
+                  <td>$17.00</td>
+                  <td>Tarjeta</td>
+                  <td>Ana López</td>
+                </tr>
+                <tr>
+                  <td>V002</td>
+                  <td>2025-04-15 09:15</td>
+                  <td>USB 16GB x2, Cuaderno x1</td>
+                  <td>$17.00</td>
+                  <td>Tarjeta</td>
+                  <td>Ana López</td>
+                </tr>
+                <tr>
+                  <td>V003</td>
+                  <td>2025-04-15 09:15</td>
+                  <td>USB 16GB x2, Cuaderno x1</td>
+                  <td>$17.00</td>
+                  <td>Tarjeta</td>
+                  <td>Ana López</td>
+                </tr>
+                <tr>
+                  <td>V004</td>
+                  <td>2025-04-15 10:43</td>
+                  <td>Monitor 24"</td>
+                  <td>$140.00</td>
+                  <td>Efectivo</td>
+                  <td>Juan Pérez</td>
+                </tr>
+                <tr>
+                  <td>V005</td>
+                  <td>2025-04-12 11:05</td>
+                  <td>Lápiz x5, Papel Bond</td>
+                  <td>$8.00</td>
+                  <td>Transferencia</td>
+                  <td>Carlos Ruiz</td>
+                </tr>
+                <!-- Puedes añadir más... -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="estadisticas" class="seccion">
+          <h2>📊 Estadísticas de Ventas</h2>
+
+          <!-- Filtros -->
+          <div class="filtros-estadisticas">
+            <input type="date" id="fecha-desde" placeholder="Desde">
+            <input type="date" id="fecha-hasta" placeholder="Hasta">
+            <button id="exportar-estadisticas">📁 Exportar</button>
+          </div>
+
+          <!-- Contenedor de gráficos -->
+          <div class="graficas">
+            <div class="grafica-card">
+              <h3>Ventas por mes</h3>
+              <canvas id="grafica-ventas-mensuales"></canvas>
+            </div>
+
+            <div class="grafica-card">
+              <h3>Productos más vendidos</h3>
+              <canvas id="grafica-productos"></canvas>
+            </div>
+
+            <div class="grafica-card">
+              <h3>Ingresos por categoría</h3>
+              <canvas id="grafica-categorias"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div id="usuarios" class="seccion">
+          <h2>👤 Gestión de Usuarios</h2>
+
+          <div class="barra-usuarios">
+            <input type="text" id="buscador-usuarios" placeholder="Buscar usuario...">
+            <select id="filtro-estado">
+              <option value="">Todos</option>
+              <option value="activo">Activos</option>
+              <option value="inactivo">Inactivos</option>
+            </select>
+            <button id="abrir-modal-usuario">➕ Nuevo Usuario</button>
+          </div>
+
+          <div class="tabla-usuarios">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Correo</th>
+                  <th>Rol</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>U001</td>
+                  <td>María Torres</td>
+                  <td>maria@empresa.com</td>
+                  <td>Admin</td>
+                  <td><span class="estado-usuario activo" onclick="toggleEstado(this)">Activo</span></td>
+                  <td>
+                    <button class="editar-usuario">✏️</button>
+                    <button class="eliminar-usuario">🗑️</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>U002</td>
+                  <td>Juan Ramírez</td>
+                  <td>juan@empresa.com</td>
+                  <td>Operador</td>
+                  <td><span class="estado-usuario inactivo" onclick="toggleEstado(this)">Inactivo</span></td>
+                  <td>
+                    <button class="editar-usuario">✏️</button>
+                    <button class="eliminar-usuario">🗑️</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Modal para agregar usuario -->
+          <div class="modal" id="modal-agregar-usuario">
+            <div class="modal-contenido">
+              <h3>Nuevo Usuario</h3>
+              <form id="formulario-usuario" data-editando="false">
+                <input type="text" name="nombre" placeholder="Nombre completo" required>
+                <input type="email" name="correo" placeholder="Correo electrónico" required>
+                <input type="password" name="password" placeholder="Contraseña" required>
+                <select name="rol" required>
+                  <option value="">Seleccionar rol</option>
+                  <option value="Admin">Admin</option>
+                  <option value="Operador">Operador</option>
+                </select>
+                <div class="acciones-modal">
+                  <button type="submit">Guardar</button>
+                  <button type="button" class="cerrar-modal">Cancelar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+
+        <div id="configuracion" class="seccion">
+          <h2>⚙️ Configuración del Sistema</h2>
+
+          <form id="form-configuracion">
+            <fieldset>
+              <legend>Preferencias del usuario</legend>
+              <label>Nombre de usuario:</label>
+              <input type="text" name="nombre_usuario" placeholder="Tu nombre visible">
+
+              <label>Cambiar contraseña:</label>
+              <input type="password" name="nueva_contraseña" placeholder="Nueva contraseña">
+            </fieldset>
+
+            <fieldset>
+              <legend>Parámetros del sistema</legend>
+              <label>Moneda predeterminada:</label>
+              <select name="moneda">
+                <option value="usd">$ USD</option>
+                <option value="eur">€ EUR</option>
+                <option value="mxn">$ MXN</option>
+              </select>
+
+              <label>Stock mínimo para alertas:</label>
+              <input type="number" name="stock_min" placeholder="Ej: 10" min="1">
+            </fieldset>
+
+            <fieldset>
+              <legend>Opciones visuales</legend>
+              <label>
+                <input type="checkbox" name="tema_oscuro"> Activar modo oscuro
+              </label>
+
+              <label>
+                <input type="checkbox" name="animaciones"> Activar animaciones
+              </label>
+            </fieldset>
+
+            <fieldset>
+              <legend>Respaldo y sistema</legend>
+              <button type="button">💾 Exportar datos</button>
+              <button type="button">🧪 Restaurar datos de prueba</button>
+              <button type="button" class="reset">🔄 Restablecer configuración</button>
+            </fieldset>
+
+            <button type="submit">💡 Guardar configuración</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      © 2025 Sistema de Inventario | Todos los derechos reservados
+    </footer>
+
+  </div>
+
+
+  <!-- script provenientes de firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <!-- mis scripts -->
+  <script src="/assets/js/dashboard/nav.js"></script>
+  <script src="/assets/js/dashboard/modal.js"></script>
+  <script src="/assets/js/dashboard/ventas.js"></script>
+  <script src="/assets/js/dashboard/exportar.js"></script>
+  <script src="/assets/js/dashboard/estadisticas.js"></script>
+  <script src="/assets/js/dashboard/usuarios.js"></script>
+  <script src="/assets/js/dashboard/buscar.js"></script>
+  <script src="/assets/js/dashboard/addprd.js"></script>
+
+</body>
+
+</html>

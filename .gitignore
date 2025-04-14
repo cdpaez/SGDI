@@ -1,0 +1,35 @@
+# Node.js
+node_modules/
+.env
+*.log
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Archivos temporales
+*.tmp
+*.swp
+
+# Sistema operativo
+*.bak
+
+# Producción (si generas dist o build)
+dist/
+build/
+
+# Archivos de conexión local (ej. base de datos)
+db.js
+
+# Backend
+backend/node_modules/
+backend/.env
+backend/firebase-admin.json
+
+# Archivos temporales y del sistema
+.DS_Store
+*.log
