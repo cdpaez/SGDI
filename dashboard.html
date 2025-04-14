@@ -7,10 +7,10 @@
   <link rel="icon" href="/assets/img/logo/inventario.png">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="/assets/css/paginas/dashboard.css">
-  
+
   <title>Inventario - Panel</title>
 
- 
+
 </head>
 
 <body>
@@ -23,15 +23,18 @@
 
     <main>
       <nav class="panel-lateral">
-        <h2>Menú</h2>
+        <div class="pestanas">
+          <h2>Menú</h2>
 
-        <button onclick="mostrarSeccion('productos')">📦 Productos</button>
-        <button onclick="mostrarSeccion('ventas')">💰 Ventas</button>
-        <button onclick="mostrarSeccion('estadisticas')">📊 Estadísticas</button>
-        <button onclick="mostrarSeccion('usuarios')">👤 Usuarios</button>
-        <button onclick="mostrarSeccion('configuracion')">⚙️ Configuración</button>
+          <button onclick="mostrarSeccion('productos')">📦 Productos</button>
+          <button onclick="mostrarSeccion('ventas')">💰 Ventas</button>
+          <button onclick="mostrarSeccion('estadisticas')">📊 Estadísticas</button>
+          <button onclick="mostrarSeccion('usuarios')">👤 Usuarios</button>
+          <button onclick="mostrarSeccion('configuracion')">⚙️ Configuración</button>
+        </div>
 
-        <a href="/index.html"><button onclick="mostrarSeccion('configuracion')">X Cerrar sesion</button></a>
+
+        <button id="ir-inicio">Cerrar sesion</button>
 
       </nav>
 
@@ -392,7 +395,12 @@
 
   </div>
 
-
+  <script>
+    document.getElementById("ir-inicio").addEventListener("click", function () {
+      // Aquí podrías borrar el token de sesión o lo que uses para login si aplica
+      window.location.href = "index.html";
+    });
+  </script>
   <!-- script provenientes de firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
